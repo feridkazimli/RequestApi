@@ -1,72 +1,29 @@
-<?php
+<?php 
 
-class RequestApi
-{
-    protected $ch;
-    protected $set;
-    protected $url;
-    protected $out;
+require 'RequestApi.php';
 
-    public function __construct()
-    {
-        $this->ch = curl_init();
+// Authorization tokenini cekirik
+// $auth_url = 'https://apiconnectdemo.quantum.az/v1/authorize';
 
-        return $this;
-    }
+// $auth_data = [
+//     'response_type' => 'code',
+//     'client_id' => 'internal_tpp_1',
+//     'client_secret' => 'sGb*@14TrLn7C'
+// ];
 
-    public function url($url)
-    {
-        $this->url = curl_setopt($this->ch, CURLOPT_URL, $url);
-        return $this;
-    }
+// $code = RequestApi::post($auth_url, $auth_data, array('Content-Type:text/plain'));
 
-    public function method(string $method = 'POST')
-    {
-        switch ($method) {
-            case 'POST':
-                $this->set = curl_setopt($this->ch, CURLOPT_POST, 1);
-                $this->set = curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                break;
-            default:
-                # code...
-                break;
-        }
+// print_r($code);
 
-        return $this;
-    }
+$url = 'https://newsapi.org/v2/everything?';
 
-    public function run()
-    {
-        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
-        $out = curl_exec($this->ch);
-        $this->out = json_decode($out, true);
-        return $this;
-    }
+$body = [
+    'q' => 'tesla',
+    'from' => '2021-03-09',
+    'sortBy' => 'publishedAt'
+];
 
-    public function __destruct()
-    {
-        curl_close($this->ch);
-    }
-}
-$url = 'api.openweathermap.org/data/2.5/weather?q=california&appid=6461504b319648dc351322730c05cd11';
+$data = RequestApi::get($url, $body, array('x-api-key: 401c78a0cde14323a2910ea7d3e22490'));
 
-$api = new RequestApi();
-
-$api->url($url)->run();
-
-print_r($api);
-
-
-// $url = 'api.openweathermap.org/data/2.5/weather?q=california&appid=6461504b319648dc351322730c05cd11';
-
-// $ch = curl_init();
-// curl_setopt($ch, CURLOPT_URL, $url);
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-// $output = curl_exec($ch);
-// curl_close($ch);
-
-// print_r(json_decode($output, true));
-
-// echo http_build_query(json_decode($output, true));
-
-// echo sprintf("%s?%s", $url, http_build_query(json_decode($output, true)));
+echo '<pre>';
+print_r($data);
