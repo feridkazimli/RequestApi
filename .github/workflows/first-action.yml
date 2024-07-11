@@ -7,4 +7,6 @@ jobs:
       - name: Print greeting
         run: echo "hello world"
       - name: Say name
-        run: echo "Farid"
+        run: |
+          echo "Farid"
+          echo "Farida"
